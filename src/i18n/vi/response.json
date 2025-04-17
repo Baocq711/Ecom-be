@@ -1,0 +1,11 @@
+{
+  "default": "Thành công",
+  "exception": {
+    "notFound": "Không tìm thấy",
+    "unauthorized": "Không xác thực được người dùng",
+    "forbidden": "Không có quyền truy cập",
+    "badRequest": "Yêu cầu không hợp lệ",
+    "internalServerError": "Lỗi máy chủ nội bộ",
+    "conflict": "Xung đột"
+  }
+}

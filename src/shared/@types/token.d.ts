@@ -1,16 +1,19 @@
 export {};
 declare global {
   interface JwtPayload {
-    exp: number;
-    iat: number;
+    exp?: number;
+    iat?: number;
   }
 
-  interface UserJwtPayload extends JwtPayload {
+  interface UserJwtPayload {
     id: string;
     // role: string;
+    refreshTokenId: string;
   }
-  interface UserPayload {
-    id: string;
-    // role: string;
+
+  interface UserGooglePayload<T = any> {
+    accessToken: string;
+    refreshToken: string;
+    profile: T;
   }
 }

@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../prisma/generated"
 }
 
 datasource db {
@@ -14,10 +15,144 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  email     String?  @unique
-  password  String?
+  id                   String   @id @default(uuid()) @db.Uuid
+  email                String
+  password             String
+  name                 String
+  phone                String?
+  address              String?
+  avatar               String?
+  provider             Provider @default(LOCAL)
+  refreshTokenProvider String?
+
+  // Role   Role?   @relation(fields: [roleId], references: [id])
+  // roleId String? @db.Uuid
+
+  refreshTokens RefreshToken[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isDeleted Boolean   @default(false)
+
+  @@unique([email, provider, isDeleted])
+}
+
+model RefreshToken {
+  id           String    @id @default(uuid()) @db.Uuid
+  user         User      @relation(fields: [userId], references: [id])
+  userId       String    @db.Uuid
+  devices      String
+  refreshToken String
+  expiresAt    DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, devices])
+}
+
+model Otp {
+  email     String
+  otp       Int
+  expiresAt DateTime
+  type      OTPType
+
+  createdAt DateTime @default(now())
+
+  @@id([email, type])
+  @@unique([email, type])
+}
+
+// model Role {
+//   id          String           @id @default(uuid()) @db.Uuid
+//   name        String
+//   description String?
+//   users       User[]
+//   permissions RolePermission[]
+
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   deletedAt DateTime?
+//   isDeleted Boolean   @default(false)
+// }
+
+// model Permission {
+//   id          String           @id @default(uuid()) @db.Uuid
+//   name        String
+//   description String?
+//   roles       RolePermission[]
+
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   deletedAt DateTime?
+// isDeleted Boolean   @default(false)
+// }
+
+// model RolePermission {
+//   role         Role       @relation(fields: [roleId], references: [id])
+//   roleId       String     @db.Uuid
+//   permission   Permission @relation(fields: [permissionId], references: [id])
+//   permissionId String     @db.Uuid
+
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   deletedAt DateTime?
+// isDeleted Boolean   @default(false)
+
+//   @@id([roleId, permissionId])
+// }
+
+model Product {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  brand       String
+  sku         String  @unique
+  martial     String
+
+  variants   Variant[]
+  categoryId String    @db.Uuid
+  category   Category  @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isDeleted Boolean   @default(false)
+}
+
+model Variant {
+  id    String @id @default(uuid()) @db.Uuid
+  size  String
+  color String
+
+  productId String  @db.Uuid
+  product   Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isDeleted Boolean   @default(false)
+}
+
+model Category {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+
+  products Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isDeleted Boolean   @default(false)
+}
+
+enum OTPType {
+  SIGNUP
+}
+
+enum Provider {
+  LOCAL
+  GOOGLE
 }

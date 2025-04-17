@@ -1,0 +1,14 @@
+{
+  "matches": "không hợp lệ",
+  "max": "phải nhỏ hơn hoặc bằng {constraints.0}",
+  "maxLength": "không được vượt quá {constraints.0} ký tự",
+  "min": "phải lớn hơn hoặc bằng {constraints.0}",
+  "minLength": "phải có ít nhất {constraints.0} ký tự",
+  "isBoolean": "phải là một giá trị boolean",
+  "isDate": "phải là một ngày hợp lệ",
+  "isDateString": "phải là một chuỗi ngày hợp lệ",
+  "isEmail": "không phải là địa chỉ email hợp lệ",
+  "isNotEmpty": "không được để trống",
+  "isNumber": "phải là một số",
+  "isString": "phải là một chuỗi"
+}
