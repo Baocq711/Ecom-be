@@ -1,4 +1,5 @@
 import env from '@/shared/config/env/env';
+import { NotFoundException } from '@/shared/exception/not-found.exception';
 import { PrismaService } from '@/shared/services/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { OTPType } from '@prismaclient/index';
@@ -7,7 +8,7 @@ import { OTPType } from '@prismaclient/index';
 export class OtpRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(email: string, otp: number, type: OTPType) {
+  async create(email: string, otp: number, type: OTPType) {
     return this.prismaService.otp.create({
       data: {
         email,
@@ -18,7 +19,7 @@ export class OtpRepository {
     });
   }
 
-  findOne(email: string, type: OTPType) {
+  async findOne(email: string, type: OTPType) {
     return this.prismaService.otp.findFirst({
       where: {
         email,
@@ -27,10 +28,11 @@ export class OtpRepository {
     });
   }
 
-  delete = async (email_type: { email: string; type: OTPType }) =>
-    this.prismaService.otp.delete({ where: { email_type: email_type } });
+  async delete(email_type: { email: string; type: OTPType }) {
+    return this.prismaService.otp.delete({ where: { email_type: email_type } });
+  }
 
-  upsert(email: string, otp: number, type: OTPType) {
+  async upsert(email: string, otp: number, type: OTPType) {
     return this.prismaService.otp.upsert({
       where: {
         email_type: {
@@ -49,5 +51,13 @@ export class OtpRepository {
         type,
       },
     });
+  }
+
+  async verify(email: string, otp: number, type: OTPType) {
+    const otpVerify = await this.prismaService.otp.findFirst({ where: { email, type } });
+
+    if (!otpVerify || otpVerify.otp !== otp) throw new NotFoundException('modules.auth.otpNotMatch');
+
+    if (otpVerify.expiresAt < new Date(Date.now())) throw new NotFoundException('modules.auth.otpExpired');
   }
 }

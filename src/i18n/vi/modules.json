@@ -1,9 +1,12 @@
 {
   "user": {
-    "emailExists": "Email đã tồn tại"
+    "emailExists": "Email đã tồn tại",
+    "emailNotExists": "Email không tồn tại"
   },
   "auth": {
     "otpExpired": "Mã xác thực đã hết hạn",
-    "otpNotMatch": "Mã xác thực không đúng"
+    "otpNotMatch": "Mã xác thực không đúng",
+    "missingCredentials": "Thiếu thông tin xác thực",
+    "confirmPasswordNotMatch": "Mật khẩu xác nhận không khớp"
   }
 }

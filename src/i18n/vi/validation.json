@@ -8,6 +8,7 @@
   "isDate": "phải là một ngày hợp lệ",
   "isDateString": "phải là một chuỗi ngày hợp lệ",
   "isEmail": "không phải là địa chỉ email hợp lệ",
+  "isEnum": "phải là một trong những giá trị sau: {constraints.0}",
   "isNotEmpty": "không được để trống",
   "isNumber": "phải là một số",
   "isString": "phải là một chuỗi"

@@ -17,7 +17,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     try {
       if (await this.userRepository.exists({ email: createUserDto.email })) {
-        throw new ConflictException('t.modules.user.emailExists');
+        throw new ConflictException('modules.user.emailExists');
       }
 
       createUserDto.password = await this.hashService.hash(createUserDto.password);
