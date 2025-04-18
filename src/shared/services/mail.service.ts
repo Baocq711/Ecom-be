@@ -1,13 +1,14 @@
 import env from '@/shared/config/env/env';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { OTPType } from '@prismaclient/index';
 import { Address } from 'nodemailer/lib/mailer';
 
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendOtp(to: string | Address, otp: number) {
+  async sendOtp(to: string | Address, otp: number, type: OTPType) {
     this.mailerService.sendMail({
       from: env.EMAIL_USER,
       to,
@@ -16,12 +17,11 @@ export class MailService {
         appName: env.APP_NAME,
         userName: to,
         otpCode: otp,
-        purpose: 'sign up',
         expiryMinutes: env.OTP_EXPIRES_IN / 60000,
         currentYear: new Date().getFullYear(),
         supportEmail: env.EMAIL_USER,
       },
-      template: 'signup',
+      template: type.toLowerCase(),
     });
   }
 }

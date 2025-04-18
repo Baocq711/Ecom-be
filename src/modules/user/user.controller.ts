@@ -3,13 +3,14 @@ import { UserService } from './user.service';
 import { CreateUserDto } from '@/shared/dto/user/create-user.dto';
 import { Public } from '@/shared/decorator/public.decorator';
 import { PrismaService } from '@/shared/services/prisma.service';
-import { User } from '@/shared/decorator/user.decorator';
+import { CacheService } from '@/shared/services/cache.service';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly prismaService: PrismaService,
+    private readonly cacheService: CacheService,
   ) {}
 
   @Post()
@@ -18,12 +19,11 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
+  // @Get()
   // @Public()
-  findAll(@User() user: UserJwtPayload) {
-    console.log(user);
-    // return this.userService.findAll();
-  }
+  // async findAll(@User() user: UserJwtPayload) {
+  // return this.userService.findAll();
+  // }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

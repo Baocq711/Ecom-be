@@ -2,12 +2,7 @@ import { Module } from '@nestjs/common';
 import { SharedModule } from './shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
-import {
-  AcceptLanguageResolver,
-  HeaderResolver,
-  I18nModule,
-  QueryResolver,
-} from 'nestjs-i18n';
+import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { AuthModule } from './modules/auth/auth.module';
 import path from 'path';
 
@@ -20,11 +15,8 @@ import path from 'path';
         path: path.join(__dirname, '/i18n/'),
         watch: true,
       },
-      resolvers: [
-        { use: QueryResolver, options: ['lang'] },
-        AcceptLanguageResolver,
-        new HeaderResolver(['x-lang']),
-      ],
+      typesOutputPath: path.join(process.cwd(), '/src/generated/i18n.generated.ts'),
+      resolvers: [{ use: QueryResolver, options: ['lang'] }, AcceptLanguageResolver, new HeaderResolver(['x-lang'])],
     }),
     SharedModule,
     UserModule,

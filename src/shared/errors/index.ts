@@ -1,27 +1,5 @@
 import { Prisma } from '@prismaclient/index';
-import {
-  BadRequestException,
-  ForbiddenException,
-  NotFoundException,
-  HttpVersionNotSupportedException,
-  UnsupportedMediaTypeException,
-  UnprocessableEntityException,
-  ServiceUnavailableException,
-  PayloadTooLargeException,
-  RequestTimeoutException,
-  PreconditionFailedException,
-  NotAcceptableException,
-  MethodNotAllowedException,
-  UnauthorizedException,
-  NotImplementedException,
-  BadGatewayException,
-  GatewayTimeoutException,
-  ConflictException,
-  GoneException,
-  MisdirectedException,
-  ImATeapotException,
-  HttpException,
-} from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 
 export function isUniqueConstraintPrismaError(error: any): error is Prisma.PrismaClientKnownRequestError {
   return error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
