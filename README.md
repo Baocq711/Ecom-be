@@ -95,14 +95,3 @@ This repository contains the backend services for our e-commerce platform.
 - API documentation
 - Request validation
 
-## Setup Instructions
-
-[Add your setup instructions here]
-
-## Technologies Used
-
-[List your tech stack here]
-
-## API Documentation
-
-[Link to API documentation]
