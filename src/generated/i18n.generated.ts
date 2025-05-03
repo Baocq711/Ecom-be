@@ -16,6 +16,71 @@ export type I18nTranslations = {
             "missingCredentials": string;
             "confirmPasswordNotMatch": string;
         };
+        "role": {
+            "nameExists": string;
+            "roleNotExists": string;
+            "permissionNotExists": string;
+        };
+        "permission": {
+            "permissionNotExists": string;
+            "permissionExists": string;
+        };
+        "order": {
+            "orderNotExists": string;
+            "orderExists": string;
+        };
+        "variant": {
+            "variantNotExists": string;
+            "variantExists": string;
+        };
+        "product": {
+            "productNotExists": string;
+            "productExists": string;
+        };
+        "category": {
+            "categoryNotExists": string;
+            "categoryExists": string;
+        };
+        "brand": {
+            "brandNotExists": string;
+            "brandExists": string;
+        };
+        "review": {
+            "reviewNotExists": string;
+            "reviewExists": string;
+        };
+        "coupon": {
+            "couponNotExists": string;
+            "couponExists": string;
+        };
+        "payment": {
+            "paymentNotExists": string;
+            "paymentExists": string;
+        };
+        "shipping": {
+            "shippingNotExists": string;
+            "shippingExists": string;
+        };
+        "cart": {
+            "cartNotExists": string;
+            "cartExists": string;
+        };
+        "wishlist": {
+            "wishlistNotExists": string;
+            "wishlistExists": string;
+        };
+        "notification": {
+            "notificationNotExists": string;
+            "notificationExists": string;
+        };
+        "file": {
+            "fileNotExists": string;
+            "fileExists": string;
+            "fileInvalidFormat": string;
+            "invalidFileType": string;
+            "requiredId": string;
+            "fileSizeLimit": string;
+        };
     };
     "prisma": {
         "error": {
@@ -47,6 +112,12 @@ export type I18nTranslations = {
         "isNotEmpty": string;
         "isNumber": string;
         "isString": string;
+        "arrayNotEmpty": string;
+        "isArray": string;
+        "isInt": string;
+        "isNotEmptyObject": string;
+        "isPositive": string;
+        "isUUID": string;
     };
 };
 /* prettier-ignore */

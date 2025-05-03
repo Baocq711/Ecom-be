@@ -15,28 +15,4 @@ export function isForeignKeyConstraintPrismaError(error: any): error is Prisma.P
 
 export function isNestException(error: any): boolean {
   return error instanceof HttpException;
-  // const exceptions = [
-  //   BadRequestException,
-  //   NotFoundException,
-  //   ForbiddenException,
-  //   HttpVersionNotSupportedException,
-  //   UnsupportedMediaTypeException,
-  //   UnprocessableEntityException,
-  //   ServiceUnavailableException,
-  //   PayloadTooLargeException,
-  //   RequestTimeoutException,
-  //   PreconditionFailedException,
-  //   NotAcceptableException,
-  //   MethodNotAllowedException,
-  //   UnauthorizedException,
-  //   NotImplementedException,
-  //   BadGatewayException,
-  //   GatewayTimeoutException,
-  //   ConflictException,
-  //   GoneException,
-  //   MisdirectedException,
-  //   ImATeapotException,
-  //   HttpException,
-  // ];
-  // return exceptions.some((exception) => error instanceof exception);
 }

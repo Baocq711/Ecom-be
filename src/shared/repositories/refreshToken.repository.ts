@@ -6,55 +6,51 @@ import { Injectable } from '@nestjs/common';
 export class RefreshTokenRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(refreshToken: string, userId: string, params?: Partial<Record<string, string>>) {
+  create(createRefreshToken: CreateRefreshToken) {
     return this.prismaService.refreshToken.create({
       data: {
-        ...params,
-        refreshToken: refreshToken,
-        userId,
+        device: createRefreshToken.device,
+        ip: createRefreshToken.ip,
+        userId: createRefreshToken.userId,
+        refreshToken: createRefreshToken.refreshToken,
         expiresAt: new Date(Date.now() + env.REFRESH_TOKEN_EXPIRES_IN),
-        devices: params?.devices || '',
-      },
-    });
-  }
-
-  upsert = this.prismaService.refreshToken.upsert;
-
-  findByToken(token: string) {
-    return this.prismaService.refreshToken.findFirst({
-      where: {
-        refreshToken: token,
-      },
-    });
-  }
-
-  update(refreshToken: string, refreshTokenId: string, params?: Partial<Record<string, string>>) {
-    if (!refreshTokenId) return null;
-
-    return this.prismaService.refreshToken.update({
-      where: { id: refreshTokenId },
-      data: {
-        ...params,
-        refreshToken: refreshToken,
-        expiresAt: new Date(Date.now() + env.REFRESH_TOKEN_EXPIRES_IN),
-      },
-    });
-  }
-
-  delete(id: string) {
-    return this.prismaService.refreshToken.delete({
-      where: { id },
-    });
-  }
-
-  exists(devices: string, userId: string) {
-    return this.prismaService.refreshToken.findFirst({
-      where: {
-        devices,
-        userId,
       },
       select: {
         id: true,
+      },
+    });
+  }
+
+  findByToken(refreshToken: string) {
+    return this.prismaService.refreshToken.findFirst({
+      where: {
+        refreshToken,
+      },
+    });
+  }
+
+  update(updateRefreshToken: UpdateRefreshToken) {
+    return this.prismaService.refreshToken.update({
+      where: { id: updateRefreshToken.refreshTokenId },
+      data: {
+        refreshToken: updateRefreshToken.refreshToken,
+        expiresAt: new Date(Date.now() + env.REFRESH_TOKEN_EXPIRES_IN),
+      },
+    });
+  }
+
+  delete(refreshTokenId: string) {
+    return this.prismaService.refreshToken.delete({
+      where: { id: refreshTokenId },
+    });
+  }
+
+  exists(existsRefreshToken: ExistRefreshToken) {
+    return this.prismaService.refreshToken.findFirst({
+      where: {
+        userId: existsRefreshToken.userId,
+        device: existsRefreshToken.device,
+        ip: existsRefreshToken.ip,
       },
     });
   }

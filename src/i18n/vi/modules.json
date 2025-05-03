@@ -8,5 +8,70 @@
     "otpNotMatch": "Mã xác thực không đúng",
     "missingCredentials": "Thiếu thông tin xác thực",
     "confirmPasswordNotMatch": "Mật khẩu xác nhận không khớp"
+  },
+  "role": {
+    "nameExists": "Tên vai trò đã tồn tại",
+    "roleNotExists": "Vai trò không tồn tại",
+    "permissionNotExists": "Quyền không tồn tại"
+  },
+  "permission": {
+    "permissionNotExists": "Quyền không tồn tại",
+    "permissionExists": "Quyền đã tồn tại"
+  },
+  "order": {
+    "orderNotExists": "Đơn hàng không tồn tại",
+    "orderExists": "Đơn hàng đã tồn tại"
+  },
+  "variant": {
+    "variantNotExists": "Biến thể không tồn tại",
+    "variantExists": "Biến thể đã tồn tại"
+  },
+  "product": {
+    "productNotExists": "Sản phẩm không tồn tại",
+    "productExists": "Sản phẩm đã tồn tại"
+  },
+  "category": {
+    "categoryNotExists": "Danh mục không tồn tại",
+    "categoryExists": "Danh mục đã tồn tại"
+  },
+  "brand": {
+    "brandNotExists": "Thương hiệu không tồn tại",
+    "brandExists": "Thương hiệu đã tồn tại"
+  },
+  "review": {
+    "reviewNotExists": "Đánh giá không tồn tại",
+    "reviewExists": "Đánh giá đã tồn tại"
+  },
+  "coupon": {
+    "couponNotExists": "Mã giảm giá không tồn tại",
+    "couponExists": "Mã giảm giá đã tồn tại"
+  },
+  "payment": {
+    "paymentNotExists": "Thanh toán không tồn tại",
+    "paymentExists": "Thanh toán đã tồn tại"
+  },
+  "shipping": {
+    "shippingNotExists": "Vận chuyển không tồn tại",
+    "shippingExists": "Vận chuyển đã tồn tại"
+  },
+  "cart": {
+    "cartNotExists": "Giỏ hàng không tồn tại",
+    "cartExists": "Giỏ hàng đã tồn tại"
+  },
+  "wishlist": {
+    "wishlistNotExists": "Danh sách yêu thích không tồn tại",
+    "wishlistExists": "Danh sách yêu thích đã tồn tại"
+  },
+  "notification": {
+    "notificationNotExists": "Thông báo không tồn tại",
+    "notificationExists": "Thông báo đã tồn tại"
+  },
+  "file": {
+    "fileNotExists": "Tệp không tồn tại",
+    "fileExists": "Tệp đã tồn tại",
+    "fileInvalidFormat": "Tệp không đúng định dạng",
+    "invalidFileType": "Loại tệp {extension.0} không hợp lệ",
+    "requiredId": "Thiếu ID",
+    "fileSizeLimit": "Kích thước tệp vượt quá {size}B"
   }
 }

@@ -3,8 +3,12 @@ import { SharedModule } from './shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
-import { AuthModule } from './modules/auth/auth.module';
 import path from 'path';
+import { AuthModule } from './modules/auth/auth.module';
+import { RoleModule } from './modules/role/role.module';
+import { PermissionModule } from './modules/permission/permission.module';
+import { FileModule } from './modules/file/file.module';
+import env from '@/shared/config/env/env';
 
 @Module({
   imports: [
@@ -18,9 +22,19 @@ import path from 'path';
       typesOutputPath: path.join(process.cwd(), '/src/generated/i18n.generated.ts'),
       resolvers: [{ use: QueryResolver, options: ['lang'] }, AcceptLanguageResolver, new HeaderResolver(['x-lang'])],
     }),
+    FileModule.forRoot({
+      endpoint: env.CLOUD_ENDPOINT,
+      region: env.CLOUD_REGION,
+      credentials: {
+        accessKeyId: env.CLOUD_ACCESS_KEY,
+        secretAccessKey: env.CLOUD_SECRET_KEY,
+      },
+    }),
     SharedModule,
     UserModule,
     AuthModule,
+    RoleModule,
+    PermissionModule,
   ],
 })
 export class AppModule {}

@@ -1,43 +1,43 @@
 import env from '@/shared/config/env/env';
+import { SendOTPDto } from '@/shared/dto/auth/send-otp.dto';
 import { NotFoundException } from '@/shared/exception/not-found.exception';
 import { PrismaService } from '@/shared/services/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { OTPType } from '@prismaclient/index';
 
 @Injectable()
 export class OtpRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(email: string, otp: number, type: OTPType) {
+  async create(createOtp: CreateOtp) {
     return this.prismaService.otp.create({
       data: {
-        email,
-        otp,
+        email: createOtp.email,
+        otp: createOtp.otp,
+        otpType: createOtp.otpType,
         expiresAt: new Date(Date.now() + env.OTP_EXPIRES_IN),
-        type,
       },
     });
   }
 
-  async findOne(email: string, type: OTPType) {
+  async findOne(findOneOtp: FindOneOtp) {
     return this.prismaService.otp.findFirst({
       where: {
-        email,
-        type,
+        email: findOneOtp.email,
+        otpType: findOneOtp.otpType,
       },
     });
   }
 
-  async delete(email_type: { email: string; type: OTPType }) {
-    return this.prismaService.otp.delete({ where: { email_type: email_type } });
+  async delete(findOneOtp: FindOneOtp) {
+    return this.prismaService.otp.delete({ where: { email_otpType: findOneOtp } });
   }
 
-  async upsert(email: string, otp: number, type: OTPType) {
+  async upsert(sendOTPDto: SendOTPDto, otp: number) {
     return this.prismaService.otp.upsert({
       where: {
-        email_type: {
-          email,
-          type,
+        email_otpType: {
+          email: sendOTPDto.email,
+          otpType: sendOTPDto.otpType,
         },
       },
       update: {
@@ -45,18 +45,24 @@ export class OtpRepository {
         expiresAt: new Date(Date.now() + env.OTP_EXPIRES_IN),
       },
       create: {
-        email,
+        email: sendOTPDto.email,
+        otpType: sendOTPDto.otpType,
         otp,
         expiresAt: new Date(Date.now() + env.OTP_EXPIRES_IN),
-        type,
       },
     });
   }
 
-  async verify(email: string, otp: number, type: OTPType) {
-    const otpVerify = await this.prismaService.otp.findFirst({ where: { email, type } });
+  async verify(sendOTPDto: SendOTPDto, otp: number) {
+    const otpVerify = await this.prismaService.otp.findFirst({
+      where: {
+        email: sendOTPDto.email,
+        otpType: sendOTPDto.otpType,
+      },
+    });
 
-    if (!otpVerify || otpVerify.otp !== otp) throw new NotFoundException('modules.auth.otpNotMatch');
+    if (!otpVerify) throw new NotFoundException('modules.user.emailNotExists');
+    if (otpVerify.otp !== otp) throw new NotFoundException('modules.auth.otpNotMatch');
 
     if (otpVerify.expiresAt < new Date(Date.now())) throw new NotFoundException('modules.auth.otpExpired');
   }

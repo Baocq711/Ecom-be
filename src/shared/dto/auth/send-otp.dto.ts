@@ -18,5 +18,5 @@ export class SendOTPDto {
     }
     return value;
   })
-  type: OTPType;
+  otpType: OTPType;
 }

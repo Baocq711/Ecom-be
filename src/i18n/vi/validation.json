@@ -1,15 +1,21 @@
 {
+  "arrayNotEmpty": "mảng không được để trống",
   "matches": "không hợp lệ",
   "max": "phải nhỏ hơn hoặc bằng {constraints.0}",
   "maxLength": "không được vượt quá {constraints.0} ký tự",
   "min": "phải lớn hơn hoặc bằng {constraints.0}",
   "minLength": "phải có ít nhất {constraints.0} ký tự",
+  "isArray": "phải là một mảng",
   "isBoolean": "phải là một giá trị boolean",
   "isDate": "phải là một ngày hợp lệ",
   "isDateString": "phải là một chuỗi ngày hợp lệ",
   "isEmail": "không phải là địa chỉ email hợp lệ",
   "isEnum": "phải là một trong những giá trị sau: {constraints.0}",
+  "isInt": "phải là một số nguyên",
   "isNotEmpty": "không được để trống",
+  "isNotEmptyObject": "không được để trống",
   "isNumber": "phải là một số",
-  "isString": "phải là một chuỗi"
+  "isPositive": "phải là một số dương",
+  "isString": "phải là một chuỗi",
+  "isUUID": "id không hợp lệ"
 }

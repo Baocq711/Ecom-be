@@ -63,4 +63,19 @@ export class EnvSchemas {
 
   @IsString()
   FRONTEND_URL: string;
+
+  @IsString()
+  CLOUD_BUCKET_NAME: string;
+
+  @IsString()
+  CLOUD_ACCESS_KEY: string;
+
+  @IsString()
+  CLOUD_SECRET_KEY: string;
+
+  @IsString()
+  CLOUD_REGION: string;
+
+  @IsString()
+  CLOUD_ENDPOINT: string;
 }

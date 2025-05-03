@@ -9,6 +9,7 @@ export class GoogleOAuthGuard extends AuthGuard('google') {
   }
 
   handleRequest<TUser = any>(err: any, user: any): TUser {
+    // Truy cập đường link hoặc refresh đường link sau khi đăng nhập google
     if (err) throw new ForbiddenException();
     if (!user) throw new UnauthorizedException();
     return user;

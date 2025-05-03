@@ -1,0 +1,12 @@
+{
+  "user": {
+    "emailExists": "Email already exists",
+    "emailNotExists": "Email does not exist"
+  },
+  "auth": {
+    "otpExpired": "Verification code has expired",
+    "otpNotMatch": "Verification code is incorrect",
+    "missingCredentials": "Missing authentication credentials",
+    "confirmPasswordNotMatch": "Confirm password does not match"
+  }
+}

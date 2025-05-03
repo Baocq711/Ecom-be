@@ -8,7 +8,6 @@ declare global {
   interface UserJwtPayload {
     id: string;
     // role: string;
-    refreshTokenId: string;
   }
 
   interface UserGooglePayload<T = any> {

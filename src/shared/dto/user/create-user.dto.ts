@@ -1,5 +1,6 @@
+import { NAME_REGEX } from '@/shared/@types/constants';
 import { I18nTranslations } from '@i18ntypes/i18n.generated';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateUserDto {
@@ -16,23 +17,7 @@ export class CreateUserDto {
   password: string;
 
   @IsNotEmpty({ message: i18nValidationMessage<I18nTranslations>('validation.isNotEmpty') })
-  @Matches(
-    /^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸỳỵỷỹ ]*$/,
-    { message: i18nValidationMessage<I18nTranslations>('validation.matches') },
-  )
+  @Matches(NAME_REGEX, { message: i18nValidationMessage<I18nTranslations>('validation.matches') })
   @IsString({ message: i18nValidationMessage<I18nTranslations>('validation.isString') })
   name: string;
-
-  @IsOptional()
-  @IsNotEmpty({ message: i18nValidationMessage<I18nTranslations>('validation.isNotEmpty') })
-  @IsString({ message: i18nValidationMessage<I18nTranslations>('validation.isString') })
-  phone: string;
-
-  @IsOptional()
-  @IsNotEmpty({ message: i18nValidationMessage<I18nTranslations>('validation.isNotEmpty') })
-  @IsString({ message: i18nValidationMessage<I18nTranslations>('validation.isString') })
-  address: string;
-
-  @IsOptional()
-  roleId: string;
 }

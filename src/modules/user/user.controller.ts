@@ -14,15 +14,16 @@ export class UserController {
   ) {}
 
   @Post()
-  @Public()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create() {
+    // @Body() createUserDto: CreateUserDto
+    return this.prismaService.role.delete({ where: { id: '1' } });
   }
+  // return this.userService.create(createUserDto);
 
   // @Get()
   // @Public()
   // async findAll(@User() user: UserJwtPayload) {
-  // return this.userService.findAll();
+  // return this.userService.findAll(query);
   // }
 
   // @Get(':id')

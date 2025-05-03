@@ -1,33 +1,95 @@
+import { CreateUserDto } from '@/shared/dto/user/create-user.dto';
+import { HashService } from '@/shared/services/hash.service';
 import { PrismaService } from '@/shared/services/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prismaclient/index';
+import { Provider } from '@prismaclient/index';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly hashService: HashService,
+  ) {}
 
-  create = this.prismaService.user.create;
-  upsert = this.prismaService.user.upsert;
-  findFirst = this.prismaService.user.findFirst;
-  findUnique = this.prismaService.user.findUnique;
-  findMany = this.prismaService.user.findMany;
-  update = this.prismaService.user.update;
-  delete = this.prismaService.user.delete;
-  deleteMany = this.prismaService.user.deleteMany;
-  aggregate = this.prismaService.user.aggregate;
-  count = this.prismaService.user.count;
-  groupBy = this.prismaService.user.groupBy;
-  updateMany = this.prismaService.user.updateMany;
-  findUniqueOrThrow = this.prismaService.user.findUniqueOrThrow;
-  findFirstOrThrow = this.prismaService.user.findFirstOrThrow;
-
-  async exists(where?: Prisma.UserWhereInput, options?: { withDeleted?: boolean }) {
+  async validateUser(user: SignInUser) {
+    const { email, provider } = user;
     return this.prismaService.user.findFirst({
       where: {
-        ...where,
-        deletedAt: where?.deletedAt === undefined ? (options?.withDeleted ? undefined : null) : where?.deletedAt,
+        email: email,
+        provider: provider,
+        deletedAt: null,
       },
-      select: { id: true },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+  }
+
+  async findByEmail(findByEmailUser: FindByEmailUser) {
+    return this.prismaService.user.findFirst({
+      where: {
+        email: findByEmailUser.email,
+        provider: findByEmailUser.provider,
+        deletedAt: null,
+      },
+    });
+  }
+
+  async create(createUserDto: CreateUserDto, provider: Provider) {
+    return this.prismaService.user.create({
+      data: {
+        email: createUserDto.email,
+        password: await this.hashService.hash(createUserDto.password),
+        name: createUserDto.name,
+        provider,
+      },
+    });
+  }
+
+  async upsertByEmail(
+    findByEmailUser: FindByEmailUser,
+    createUserByGoogle: CreateUserByGoogle,
+    updateUserByGoogle: UpdateUserByGoogle,
+  ) {
+    const userExist = await this.findByEmail({
+      email: findByEmailUser.email,
+      provider: findByEmailUser.provider,
+    });
+
+    if (!userExist) {
+      return this.prismaService.user.create({
+        data: {
+          email: createUserByGoogle.email,
+          name: createUserByGoogle.name,
+          provider: createUserByGoogle.provider,
+          avatar: createUserByGoogle.avatar,
+          refreshTokenProvider: createUserByGoogle.refreshTokenProvider,
+          password: '',
+        },
+      });
+    } else {
+      return this.prismaService.user.update({
+        where: {
+          id: userExist.id,
+        },
+        data: {
+          name: updateUserByGoogle.name,
+          avatar: updateUserByGoogle.avatar,
+          refreshTokenProvider: updateUserByGoogle.refreshTokenProvider,
+        },
+      });
+    }
+  }
+
+  async updatePassword(id: string, password: string) {
+    return this.prismaService.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: await this.hashService.hash(password),
+      },
     });
   }
 }

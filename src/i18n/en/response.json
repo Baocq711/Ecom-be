@@ -1,0 +1,11 @@
+{
+  "default": "Success",
+  "exception": {
+    "notFound": "Not found",
+    "unauthorized": "User authentication failed",
+    "forbidden": "Access denied",
+    "badRequest": "Invalid request",
+    "internalServerError": "Internal server error",
+    "conflict": "Conflict"
+  }
+}

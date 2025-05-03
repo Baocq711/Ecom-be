@@ -1,13 +1,14 @@
-import { Body, Controller, Get, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Ip, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from '@/shared/guard/local-auth.guard';
 import { User } from '@/shared/decorator/user.decorator';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Public } from '@/shared/decorator/public.decorator';
 import { SignUpDto } from '@/shared/dto/auth/sign-up.dto';
 import { GoogleOAuthGuard } from '@/shared/guard/google-auth.guard';
 import { SendOTPDto } from '@/shared/dto/auth/send-otp.dto';
 import { ForgotPasswordDto } from '@/shared/dto/auth/forgot-password.dto';
+import { Device } from '@/shared/decorator/device.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -15,8 +16,8 @@ export class AuthController {
 
   @Post('otp')
   @Public()
-  async sendOtp(@Body() body: SendOTPDto) {
-    return this.authService.sendOtp(body.email, body.type);
+  async sendOtp(@Body() sendOTPDto: SendOTPDto) {
+    return this.authService.sendOtp(sendOTPDto);
   }
 
   @Post('forgot-password')
@@ -45,8 +46,13 @@ export class AuthController {
   @Post('sign-in')
   @Public()
   @UseGuards(LocalAuthGuard)
-  async signIn(@User() user: UserJwtPayload, @Res({ passthrough: true }) res: Response, @Req() req: Request) {
-    return this.authService.signIn(user, res, req);
+  async signIn(
+    @User() user: UserJwtPayload,
+    @Ip() ip,
+    @Device() device: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.signIn(user, { ip, device }, res);
   }
 
   @Post('sign-out')
@@ -56,7 +62,7 @@ export class AuthController {
 
   @Post('sign-up')
   @Public()
-  async signUp(@Body() body: SignUpDto) {
-    return this.authService.signUp(body);
+  async signUp(@Body() signUpDto: SignUpDto) {
+    return this.authService.signUp(signUpDto);
   }
 }
