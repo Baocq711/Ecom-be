@@ -1,4 +1,5 @@
 import { CreateUserDto } from '@/shared/dto/user/create-user.dto';
+import { CacheService } from '@/shared/services/cache.service';
 import { HashService } from '@/shared/services/hash.service';
 import { PrismaService } from '@/shared/services/prisma.service';
 import { Injectable } from '@nestjs/common';
@@ -9,7 +10,9 @@ export class UserRepository {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly hashService: HashService,
+    private readonly cacheService: CacheService,
   ) {}
+  private readonly getUserRole = () => this.cacheService.getUserRoleId();
 
   async validateUser(user: SignInUser) {
     const { email, provider } = user;
@@ -22,6 +25,7 @@ export class UserRepository {
       select: {
         id: true,
         password: true,
+        roleId: true,
       },
     });
   }
@@ -43,6 +47,11 @@ export class UserRepository {
         password: await this.hashService.hash(createUserDto.password),
         name: createUserDto.name,
         provider,
+        role: {
+          connect: {
+            id: (await this.getUserRole())!,
+          },
+        },
       },
     });
   }
@@ -66,6 +75,11 @@ export class UserRepository {
           avatar: createUserByGoogle.avatar,
           refreshTokenProvider: createUserByGoogle.refreshTokenProvider,
           password: '',
+          role: {
+            connect: {
+              id: (await this.getUserRole())!,
+            },
+          },
         },
       });
     } else {

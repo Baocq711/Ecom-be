@@ -7,7 +7,7 @@ declare global {
 
   interface UserJwtPayload {
     id: string;
-    // role: string;
+    roleId: string;
   }
 
   interface UserGooglePayload<T = any> {

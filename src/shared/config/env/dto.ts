@@ -78,4 +78,13 @@ export class EnvSchemas {
 
   @IsString()
   CLOUD_ENDPOINT: string;
+
+  @IsString()
+  INIT_ADMIN_USERNAME: string;
+
+  @IsString()
+  INIT_USER_USERNAME: string;
+
+  @IsString()
+  INIT_PASSWORD: string;
 }

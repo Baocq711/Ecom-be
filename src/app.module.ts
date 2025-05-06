@@ -8,6 +8,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
 import { PermissionModule } from './modules/permission/permission.module';
 import { FileModule } from './modules/file/file.module';
+import { ProductModule } from './modules/product/product.module';
+import { VariantModule } from './modules/variant/variant.module';
 import env from '@/shared/config/env/env';
 
 @Module({
@@ -35,6 +37,8 @@ import env from '@/shared/config/env/env';
     AuthModule,
     RoleModule,
     PermissionModule,
+    ProductModule,
+    VariantModule,
   ],
 })
 export class AppModule {}

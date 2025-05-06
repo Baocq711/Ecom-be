@@ -45,6 +45,16 @@ export class RefreshTokenRepository {
     });
   }
 
+  deleteByDevice(device: Omit<CreateRefreshToken, 'refreshToken'>) {
+    return this.prismaService.refreshToken.deleteMany({
+      where: {
+        userId: device.userId,
+        device: device.device,
+        ip: device.ip,
+      },
+    });
+  }
+
   exists(existsRefreshToken: ExistRefreshToken) {
     return this.prismaService.refreshToken.findFirst({
       where: {

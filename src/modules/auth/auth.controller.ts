@@ -21,6 +21,7 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @Public()
   async forgotPassword(@Body() body: ForgotPasswordDto) {
     return this.authService.forgotPassword(body);
   }
@@ -48,7 +49,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async signIn(
     @User() user: UserJwtPayload,
-    @Ip() ip,
+    @Ip() ip: string,
     @Device() device: string,
     @Res({ passthrough: true }) res: Response,
   ) {
@@ -56,13 +57,23 @@ export class AuthController {
   }
 
   @Post('sign-out')
-  async signOut(@User() user: UserJwtPayload, @Res({ passthrough: true }) res: Response) {
-    return this.authService.signOut(user.id, res);
+  async signOut(
+    @User() user: UserJwtPayload,
+    @Ip() ip: string,
+    @Device() device: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.signOut(user.id, { ip, device }, res);
   }
 
   @Post('sign-up')
   @Public()
-  async signUp(@Body() signUpDto: SignUpDto) {
-    return this.authService.signUp(signUpDto);
+  async signUp(
+    @Body() signUpDto: SignUpDto,
+    @Ip() ip: string,
+    @Device() device: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.signUp(signUpDto, { ip, device }, res);
   }
 }

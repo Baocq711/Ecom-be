@@ -5,6 +5,9 @@ import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
 import { TransformInterceptor } from '@/shared/inteceptor/transform.interceptor';
 import cookieParser from 'cookie-parser';
 import { JwtAuthGuard } from '@/shared/guard/jwt-auth.guard';
+import { PermissionGuard } from '@/shared/guard/permission.guard';
+import { AuthService } from '@/modules/auth/auth.service';
+import { VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,12 +21,19 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new I18nValidationExceptionFilter());
 
+  app.enableVersioning({
+    type: VersioningType.URI,
+    prefix: 'api/v',
+    defaultVersion: ['1'],
+  });
+
   const reflector = app.get(Reflector);
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
-  app.useGlobalGuards(new JwtAuthGuard(reflector));
+
+  const authService = app.get(AuthService);
+  app.useGlobalGuards(new JwtAuthGuard(reflector), new PermissionGuard(reflector, authService));
 
   app.use(cookieParser());
-
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

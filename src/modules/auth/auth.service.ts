@@ -1,4 +1,5 @@
 import genOTP from '@/helper/genOTP';
+import { removeApiPrefix } from '@/helper/removePrefix';
 import { COOKIE_KEY } from '@/shared/@types/enum';
 import env from '@/shared/config/env/env';
 import { ForgotPasswordDto } from '@/shared/dto/auth/forgot-password.dto';
@@ -12,11 +13,12 @@ import { RefreshTokenRepository } from '@/shared/repositories/refreshToken.repos
 import { UserRepository } from '@/shared/repositories/user.repository';
 import { CacheService } from '@/shared/services/cache.service';
 import { HashService } from '@/shared/services/hash.service';
+import { InitService } from '@/shared/services/init.service';
 import { TokenService } from '@/shared/services/jwt.service';
 import { MailService } from '@/shared/services/mail.service';
 import { Injectable } from '@nestjs/common';
 import { OTPType, Provider } from '@prismaclient/index';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -28,6 +30,7 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly mailService: MailService,
     private readonly cacheService: CacheService,
+    private readonly initService: InitService,
   ) {}
 
   async validateUser(email: string, pass: string) {
@@ -45,6 +48,17 @@ export class AuthService {
     return userWithoutPassword;
   }
 
+  async validatePermission(user: UserJwtPayload, req: Request) {
+    const permissions = await this.cacheService.getPermissions(user.roleId);
+    if (!permissions) {
+      await this.initService.cachePermissions(user.roleId);
+      return this.validatePermission(user, req);
+    }
+    const method = req.method.toUpperCase();
+    const url = removeApiPrefix(req.url);
+    return permissions.some((permission) => method === permission.method && url === permission.path);
+  }
+
   async signIn(user: UserJwtPayload, { device, ip }: ClientInfo, res: Response) {
     const [existsrefreshToken, accessToken, refreshToken] = await Promise.all([
       this.refreshTokenRepository.exists({
@@ -52,12 +66,8 @@ export class AuthService {
         device,
         ip,
       }),
-      this.tokenService.signAccessToken({
-        id: user.id,
-      }),
-      this.tokenService.signRefreshToken({
-        id: user.id,
-      }),
+      this.tokenService.signAccessToken(user),
+      this.tokenService.signRefreshToken(user),
     ]);
 
     if (!existsrefreshToken) {
@@ -86,11 +96,16 @@ export class AuthService {
   }
 
   async sendOtp(sendOTPDto: SendOTPDto) {
+    const provider: Provider = Provider.LOCAL;
+    if (await this.userRepository.findByEmail({ email: sendOTPDto.email, provider })) {
+      throw new ConflictException('modules.user.emailExists');
+    }
+
     const { otp } = await this.otpRepository.upsert(sendOTPDto, genOTP(6));
     this.mailService.sendOtp(sendOTPDto, otp);
   }
 
-  async signUp(signUpDto: SignUpDto) {
+  async signUp(signUpDto: SignUpDto, clientInfo: ClientInfo, res: Response) {
     const provider: Provider = Provider.LOCAL;
     const otpType: OTPType = OTPType.SIGNUP;
 
@@ -100,7 +115,7 @@ export class AuthService {
 
     await this.otpRepository.verify({ email: signUpDto.email, otpType }, signUpDto.otp);
 
-    await Promise.all([
+    const [user] = await Promise.all([
       this.userRepository.create(
         { email: signUpDto.email, password: signUpDto.password, name: signUpDto.name },
         provider,
@@ -110,6 +125,8 @@ export class AuthService {
         otpType,
       }),
     ]);
+
+    return this.signIn({ id: user.id, roleId: user.roleId }, clientInfo, res);
   }
 
   async googleAuthentication(
@@ -137,13 +154,8 @@ export class AuthService {
       );
 
       const accessToken = await this.signIn(
-        {
-          id: user.id,
-        },
-        {
-          device: state.device,
-          ip: state.ip,
-        },
+        { id: user.id, roleId: user.roleId },
+        { device: state.device, ip: state.ip },
         res,
       );
 
@@ -154,8 +166,14 @@ export class AuthService {
     }
   }
 
-  async signOut(userId: string, res: Response) {
-    await Promise.all([this.refreshTokenRepository.delete(userId), this.cacheService.delAccessToken(userId)]);
+  async signOut(userId: string, clientInfo: ClientInfo, res: Response) {
+    await Promise.all([
+      this.refreshTokenRepository.deleteByDevice({
+        userId,
+        ...clientInfo,
+      }),
+      this.cacheService.delAccessToken(userId),
+    ]);
     res.clearCookie(COOKIE_KEY.REFRESH_TOKEN);
   }
 

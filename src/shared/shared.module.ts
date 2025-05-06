@@ -5,7 +5,6 @@ import services from '@/shared/services';
 import { MailerModule } from '@nestjs-modules/mailer';
 import env from '@/shared/config/env/env';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { CacheService } from './services/cache.service';
 import path from 'path';
 import { CacheModule } from '@nestjs/cache-manager';
 
@@ -35,7 +34,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       },
     }),
   ],
-  providers: [...services, ...repositories, CacheService],
+  providers: [...services, ...repositories],
   exports: [...services, ...repositories],
 })
 export class SharedModule {}

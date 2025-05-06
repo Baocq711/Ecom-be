@@ -1,9 +1,10 @@
-import { Controller, Delete, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileService } from './file.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileType } from '@/shared/@types/enum/file-type.enum';
 import { Public } from '@/shared/decorator/public.decorator';
 import { FOLDERS3, S3Path } from '@/shared/@types/file-folder';
+import { DeleteFileDto } from '@/shared/dto/file/deleteFileDto';
 
 @Controller('file')
 export class FileController {
@@ -23,7 +24,7 @@ export class FileController {
 
   @Delete()
   @Public()
-  deleteFile() {
+  deleteFile(@Body() deleteFileDto: DeleteFileDto) {
     return this.fileService.delete(
       'user/123/avatar/019675c2-c8c7-729f-803c-1273ddcee34f_1745732421831_Ảnh chụp màn hình 2023-05-25 114631.png',
     );
