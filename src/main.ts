@@ -8,6 +8,7 @@ import { JwtAuthGuard } from '@/shared/guard/jwt-auth.guard';
 import { PermissionGuard } from '@/shared/guard/permission.guard';
 import { AuthService } from '@/modules/auth/auth.service';
 import { VersioningType } from '@nestjs/common';
+import { ValidateIdPipe } from '@/shared/pipes/validate-id.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
       transform: true,
       forbidNonWhitelisted: true,
     }),
+    new ValidateIdPipe(),
   );
   app.useGlobalFilters(new I18nValidationExceptionFilter());
 

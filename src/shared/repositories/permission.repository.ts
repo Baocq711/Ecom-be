@@ -33,7 +33,6 @@ export class PermissionRepository {
   async findAndCount(query: PaginationDto) {
     return this.prismaService.$transaction([
       this.prismaService.permission.findMany({
-        where: { deletedAt: query?.withDeleted ? undefined : null },
         skip: (query.page - 1) * query.limit,
         take: query.limit,
       }),
@@ -42,7 +41,7 @@ export class PermissionRepository {
   }
   async findOneById(id: string) {
     return this.prismaService.permission.findUnique({
-      where: { id, deletedAt: null },
+      where: { id },
     });
   }
 

@@ -2,7 +2,7 @@ import { Method, Module, Prisma } from '@prismaclient/index';
 
 const methods: Method[] = ['POST', 'GET', 'GET', 'PATCH', 'DELETE'];
 const actions: string[] = ['CREATE', 'FIND ALL', 'FIND ONE', 'UPDATE', 'DELETE'];
-const crudModules: Module[] = ['USER', 'ROLE', 'PERMISSION'];
+const crudModules: Module[] = ['USER', 'ROLE', 'PERMISSION', 'PRODUCT', 'VARIANT'];
 
 const authModule: Prisma.PermissionCreateManyInput[] = [
   {

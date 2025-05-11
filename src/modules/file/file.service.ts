@@ -65,7 +65,7 @@ export class FileService {
 
       return parallelUploads3.done().then((data) => data.Key);
     } catch {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('modules.file.uploadFailed');
     }
   }
 

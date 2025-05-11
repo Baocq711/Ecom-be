@@ -8,7 +8,7 @@ export class ValidateIdPipe implements PipeTransform<string> {
   transform(value: string, metadata: ArgumentMetadata): string {
     // Chỉ xử lý với các tham số đường dẫn có tên 'id'
     if (metadata.type === 'param' && metadata.data === 'id') {
-      const isUuid = isUUID(value, '7');
+      const isUuid = isUUID(value, '4');
       if (!isUuid) {
         throw new BadRequestException('validation.isUUID');
       }

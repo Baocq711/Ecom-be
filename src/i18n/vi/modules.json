@@ -20,7 +20,8 @@
   },
   "order": {
     "orderNotExists": "Đơn hàng không tồn tại",
-    "orderExists": "Đơn hàng đã tồn tại"
+    "orderExists": "Đơn hàng đã tồn tại",
+    "cartItemNotFound": "Một số sản phẩm không tồn tại trong giỏ hàng"
   },
   "variant": {
     "variantNotExists": "Biến thể không tồn tại",
@@ -28,7 +29,8 @@
   },
   "product": {
     "productNotExists": "Sản phẩm không tồn tại",
-    "productExists": "Sản phẩm đã tồn tại"
+    "productExists": "Sản phẩm đã tồn tại",
+    "uploadImageFailed": "Tải ảnh sản phẩm thất bại"
   },
   "category": {
     "categoryNotExists": "Danh mục không tồn tại",
@@ -56,7 +58,8 @@
   },
   "cart": {
     "cartNotExists": "Giỏ hàng không tồn tại",
-    "cartExists": "Giỏ hàng đã tồn tại"
+    "cartExists": "Giỏ hàng đã tồn tại",
+    "itemExists": "Sản phẩm đã tồn tại trong giỏ hàng"
   },
   "wishlist": {
     "wishlistNotExists": "Danh sách yêu thích không tồn tại",
@@ -72,6 +75,7 @@
     "fileInvalidFormat": "Tệp không đúng định dạng",
     "invalidFileType": "Loại tệp {extension.0} không hợp lệ",
     "requiredId": "Thiếu ID",
-    "fileSizeLimit": "Kích thước tệp vượt quá {size}B"
+    "fileSizeLimit": "Kích thước tệp vượt quá {size}B",
+    "uploadFailed": "Tải tệp thất bại"
   }
 }

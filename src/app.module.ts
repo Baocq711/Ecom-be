@@ -10,6 +10,10 @@ import { PermissionModule } from './modules/permission/permission.module';
 import { FileModule } from './modules/file/file.module';
 import { ProductModule } from './modules/product/product.module';
 import { VariantModule } from './modules/variant/variant.module';
+import { CartModule } from './modules/cart/cart.module';
+import { CartItemModule } from './modules/cart-item/cart-item.module';
+import { OrderModule } from './modules/order/order.module';
+import { CategoryModule } from './modules/category/category.module';
 import env from '@/shared/config/env/env';
 
 @Module({
@@ -39,6 +43,10 @@ import env from '@/shared/config/env/env';
     PermissionModule,
     ProductModule,
     VariantModule,
+    CartModule,
+    CartItemModule,
+    OrderModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

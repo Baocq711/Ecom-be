@@ -55,7 +55,7 @@ export class AuthService {
       return this.validatePermission(user, req);
     }
     const method = req.method.toUpperCase();
-    const url = removeApiPrefix(req.url);
+    const url = removeApiPrefix(req.route.path);
     return permissions.some((permission) => method === permission.method && url === permission.path);
   }
 
@@ -153,9 +153,9 @@ export class AuthService {
         },
       );
 
-      const accessToken = await this.signIn(
+      const { accessToken } = await this.signIn(
         { id: user.id, roleId: user.roleId },
-        { device: state.device, ip: state.ip },
+        { device: state.userAgent, ip: state.ip },
         res,
       );
 

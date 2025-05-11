@@ -4,6 +4,8 @@
 /build
 
 src/generated/prisma/
+src/generated/i18n.generated.ts
+
 
 # Logs
 logs

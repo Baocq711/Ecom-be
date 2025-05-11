@@ -48,6 +48,8 @@ model RefreshToken {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, device, ip])
 }
 
 model Otp {
@@ -63,7 +65,7 @@ model Otp {
 
 model Role {
   id          String  @id @default(uuid()) @db.Uuid
-  name        String
+  name        String  @unique
   description String?
   isActive    Boolean @default(true)
 
@@ -85,15 +87,18 @@ model Permission {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([path, method])
 }
 
 model Product {
-  id           String        @id @default(uuid()) @db.Uuid
+  id           String       @id @default(uuid()) @db.Uuid
   name         String
   description  String?
-  discount     Int?          @default(0)
-  discountType DiscountType? @default(PERCENT)
-  isActive     Boolean       @default(true)
+  images       String[]
+  discount     Int          @default(0)
+  discountType DiscountType @default(PERCENT)
+  isActive     Boolean      @default(true)
 
   categoryId String?   @db.Uuid
   category   Category? @relation(fields: [categoryId], references: [id])
@@ -125,17 +130,17 @@ model Variant {
 
 model Category {
   id          String  @id @default(uuid()) @db.Uuid
-  name        String
+  name        String  @unique
   description String?
+  level       Int     @default(0)
 
   parentId String?    @db.Uuid
   parent   Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
   children Category[] @relation("CategoryToCategory")
   products Product[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {

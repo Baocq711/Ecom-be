@@ -27,15 +27,14 @@ export class PermissionService {
   }
 
   async findAll(query: PaginationDto) {
-    const { page, limit } = query;
     const [permissions, totalRecords] = await this.permissionRepository.findAndCount(query);
 
     return {
       meta: {
-        page,
-        limit,
+        page: query.page,
+        limit: query.limit,
         totalRecords,
-        totalPages: Math.ceil(totalRecords / limit),
+        totalPages: Math.ceil(totalRecords / query.limit),
       },
       permissions,
     };

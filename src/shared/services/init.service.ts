@@ -80,13 +80,9 @@ export class InitService implements OnModuleInit {
 
     const adminRole = initRole.find((role) => role.name === InitRoleName.ADMIN);
 
-    if ((await this.prismaService.permission.count()) > 0) {
-      this.logger.log(`Permissions already initialized`);
-      return;
-    }
-
-    const permissions = await this.prismaService.permission.createManyAndReturn({
+    await this.prismaService.permission.createMany({
       data: initPermissions,
+      skipDuplicates: true,
     });
 
     await this.prismaService.role.update({
@@ -96,10 +92,16 @@ export class InitService implements OnModuleInit {
       },
       data: {
         permissions: {
-          set: permissions.map((permission) => ({ id: permission.id })),
+          set: await this.prismaService.permission.findMany(),
         },
       },
     });
+
+    if ((await this.prismaService.permission.count()) > 0) {
+      this.logger.log(`Permissions already initialized`);
+      return;
+    }
+
     this.logger.log(`Permissions initialized`);
   };
 

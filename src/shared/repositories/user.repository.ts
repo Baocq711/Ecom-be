@@ -52,6 +52,9 @@ export class UserRepository {
             id: (await this.getUserRole())!,
           },
         },
+        cart: {
+          create: {},
+        },
       },
     });
   }
