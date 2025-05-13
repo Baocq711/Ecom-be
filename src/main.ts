@@ -36,6 +36,7 @@ async function bootstrap() {
   app.useGlobalGuards(new JwtAuthGuard(reflector), new PermissionGuard(reflector, authService));
 
   app.use(cookieParser());
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

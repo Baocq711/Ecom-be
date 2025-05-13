@@ -24,7 +24,11 @@ export class CartRepository {
       include: {
         items: {
           include: {
-            variant: true,
+            variant: {
+              include: {
+                product: true,
+              },
+            },
           },
         },
         _count: true,
@@ -36,7 +40,7 @@ export class CartRepository {
     return this.prismaService.cart.update({
       data: {
         items: {
-          set: [],
+          deleteMany: {},
         },
       },
       where: {

@@ -28,6 +28,10 @@ export type I18nTranslations = {
         "order": {
             "orderNotExists": string;
             "orderExists": string;
+            "cartItemNotFound": string;
+            "discountCannotBeGreaterThan100": string;
+            "discountCannotBeGreaterThanAmount": string;
+            "invalidTotalAmount": string;
         };
         "variant": {
             "variantNotExists": string;
@@ -36,6 +40,7 @@ export type I18nTranslations = {
         "product": {
             "productNotExists": string;
             "productExists": string;
+            "uploadImageFailed": string;
         };
         "category": {
             "categoryNotExists": string;
@@ -64,6 +69,9 @@ export type I18nTranslations = {
         "cart": {
             "cartNotExists": string;
             "cartExists": string;
+            "itemExists": string;
+            "itemNotExists": string;
+            "cartIsEmpty": string;
         };
         "wishlist": {
             "wishlistNotExists": string;
@@ -80,6 +88,7 @@ export type I18nTranslations = {
             "invalidFileType": string;
             "requiredId": string;
             "fileSizeLimit": string;
+            "uploadFailed": string;
         };
     };
     "prisma": {

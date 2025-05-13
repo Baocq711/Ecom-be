@@ -7,11 +7,10 @@ declare global {
     quantity: number;
 
     name: string;
-    description?: string;
+    description?: string | null;
     discount?: number;
     discountType?: DiscountType;
 
-    sku: string;
     size: string;
     color: string;
     material: string;

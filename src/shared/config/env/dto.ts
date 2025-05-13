@@ -87,4 +87,10 @@ export class EnvSchemas {
 
   @IsString()
   INIT_PASSWORD: string;
+
+  @IsString()
+  PREFIX_PAYMENT_CODE: string;
+
+  @IsString()
+  API_KEY: string;
 }

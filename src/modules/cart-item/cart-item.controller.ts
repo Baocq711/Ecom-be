@@ -2,14 +2,15 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CartItemService } from './cart-item.service';
 import { CreateCartItemDto } from '@/shared/dto/cart/create-cart-item.dto';
 import { UpdateCartItemDto } from '@/shared/dto/cart/update-cart-item.dto';
+import { User } from '@/shared/decorator/user.decorator';
 
 @Controller('cart-item')
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
   @Post()
-  create(@Body() createCartItemDto: CreateCartItemDto) {
-    return this.cartItemService.create(createCartItemDto);
+  create(@Body() createCartItemDto: CreateCartItemDto, @User() user: UserJwtPayload) {
+    return this.cartItemService.create(createCartItemDto, user);
   }
 
   @Get(':id')

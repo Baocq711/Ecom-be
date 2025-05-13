@@ -111,13 +111,13 @@ model Product {
 
 model Variant {
   id       String   @id @default(uuid()) @db.Uuid
-  sku      String
   size     String
   color    String
   material String
   stock    Int      @default(0)
   price    Int
   images   String[]
+  isActive Boolean  @default(true)
 
   productId String     @db.Uuid
   product   Product    @relation(fields: [productId], references: [id])
@@ -160,11 +160,13 @@ model CartItem {
 
   cartId    String  @db.Uuid
   cart      Cart    @relation(fields: [cartId], references: [id])
-  variantId String  @unique @db.Uuid
+  variantId String  @db.Uuid
   variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([cartId, variantId])
 }
 
 model Order {
@@ -175,6 +177,7 @@ model Order {
   discount     Int?          @default(0)
   discountType DiscountType? @default(PERCENT)
 
+  paymentCode   Int           @unique @default(autoincrement())
   paymentMethod PaymentMethod
   paymentStatus PaymentStatus @default(PENDING)
 
@@ -201,7 +204,6 @@ model OrderItem {
   discountType DiscountType? @default(PERCENT)
 
   //Variant
-  sku      String
   size     String
   color    String
   material String
@@ -215,6 +217,8 @@ model OrderItem {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+
+  @@unique([name, size, color, material, orderId])
 }
 
 enum OTPType {
@@ -235,6 +239,11 @@ enum Module {
   ROLE
   USER
   VARIANT
+  CART
+  ORDER
+  CATEGORY
+  CART_ITEM
+  PAYMENT
 }
 
 enum Method {

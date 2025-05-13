@@ -1,3 +1,4 @@
+import { isValidTotalAmount } from '@/helper/checkTotalAmount';
 import { CreateOrderDto } from '@/shared/dto/order/create-order.dto';
 import { UpdateOrderDto } from '@/shared/dto/order/update-order.dto';
 import { PaginationDto } from '@/shared/dto/pagination/pagination.dto';
@@ -6,6 +7,7 @@ import { CartItemRepository } from '@/shared/repositories/cart-item.repository';
 import { CartRepository } from '@/shared/repositories/cart.repository';
 import { OrderRepository } from '@/shared/repositories/order.repository';
 import { Injectable } from '@nestjs/common';
+import { arrayNotEmpty } from 'class-validator';
 
 @Injectable()
 export class OrderService {
@@ -16,19 +18,36 @@ export class OrderService {
   ) {}
 
   async create(user: UserJwtPayload, createOrderDto: CreateOrderDto) {
-    const cartItems = await this.cartItemRepository.findMany(createOrderDto.cartItemIds);
+    const cart = await this.cartRepository.findOne(user.id);
 
-    if (cartItems.length !== createOrderDto.cartItemIds.length) {
-      throw new BadRequestException('modules.order.cartItemNotFound');
+    if (!cart) {
+      throw new BadRequestException('modules.cart.cartNotExists');
     }
 
-    const items: CreateOrderItem[] = cartItems.map((cartItem) => ({
+    if (!arrayNotEmpty(cart.items)) {
+      throw new BadRequestException('modules.cart.cartIsEmpty');
+    }
+
+    if (
+      !isValidTotalAmount(
+        createOrderDto.totalAmount,
+        cart.items.map((cartItem) => ({
+          quantity: cartItem.quantity,
+          price: cartItem.variant.price,
+          discount: cartItem.variant.product.discount,
+          discountType: cartItem.variant.product.discountType,
+        })),
+      )
+    ) {
+      throw new BadRequestException('modules.order.invalidTotalAmount');
+    }
+
+    const orderItems: CreateOrderItem[] = cart.items.map((cartItem) => ({
       quantity: cartItem.quantity,
       name: cartItem.variant.product.name,
-      description: cartItem.variant.product.description ?? undefined,
+      description: cartItem.variant.product.description,
       discount: cartItem.variant.product.discount,
       discountType: cartItem.variant.product.discountType,
-      sku: cartItem.variant.sku,
       size: cartItem.variant.size,
       color: cartItem.variant.color,
       material: cartItem.variant.material,
@@ -38,7 +57,7 @@ export class OrderService {
 
     const order = await this.orderRepository.create(user.id, {
       ...createOrderDto,
-      items,
+      items: orderItems,
     });
 
     await this.cartRepository.delete(user.id);

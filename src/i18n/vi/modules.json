@@ -21,7 +21,10 @@
   "order": {
     "orderNotExists": "Đơn hàng không tồn tại",
     "orderExists": "Đơn hàng đã tồn tại",
-    "cartItemNotFound": "Một số sản phẩm không tồn tại trong giỏ hàng"
+    "cartItemNotFound": "Một số sản phẩm không tồn tại trong giỏ hàng",
+    "discountCannotBeGreaterThan100": "Giảm giá không thể lớn hơn 100%",
+    "discountCannotBeGreaterThanAmount": "Giảm giá không thể lớn hơn tổng số tiền",
+    "invalidTotalAmount": "Tổng số tiền không hợp lệ"
   },
   "variant": {
     "variantNotExists": "Biến thể không tồn tại",
@@ -59,7 +62,9 @@
   "cart": {
     "cartNotExists": "Giỏ hàng không tồn tại",
     "cartExists": "Giỏ hàng đã tồn tại",
-    "itemExists": "Sản phẩm đã tồn tại trong giỏ hàng"
+    "itemExists": "Sản phẩm đã tồn tại trong giỏ hàng",
+    "itemNotExists": "Sản phẩm không tồn tại trong giỏ hàng",
+    "cartIsEmpty": "Giỏ hàng không có sản phẩm"
   },
   "wishlist": {
     "wishlistNotExists": "Danh sách yêu thích không tồn tại",

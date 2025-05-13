@@ -6,10 +6,10 @@ import { Injectable } from '@nestjs/common';
 export class VariantRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async exist(sku: string) {
+  async exist(variantExist: VariantExist) {
     return this.prismaService.variant.findFirst({
       where: {
-        sku,
+        ...variantExist,
         deletedAt: null,
       },
     });

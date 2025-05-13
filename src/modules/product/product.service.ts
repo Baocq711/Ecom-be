@@ -69,7 +69,7 @@ export class ProductService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto, files: Express.Multer.File[]) {
-    const isExistProduct = await this.productRepository.findOneById(id);
+    const isExistProduct = await this.productRepository.existById(id);
     if (!isExistProduct) {
       throw new NotFoundException('modules.product.productNotExists');
     }
@@ -99,7 +99,7 @@ export class ProductService {
   }
 
   async remove(id: string) {
-    const isExist = await this.productRepository.findOneById(id);
+    const isExist = await this.productRepository.existById(id);
     if (!isExist) {
       throw new NotFoundException('modules.product.productNotExists');
     }

@@ -15,6 +15,15 @@ export class ProductRepository {
     });
   }
 
+  async existById(id: string) {
+    return this.prismaService.product.findFirst({
+      where: {
+        id,
+        deletedAt: null,
+      },
+    });
+  }
+
   async create(createProduct: CreateProduct) {
     return this.prismaService.product.create({
       data: createProduct,
@@ -36,6 +45,9 @@ export class ProductRepository {
         where: {
           deletedAt: null,
         },
+        include: {
+          variants: true,
+        },
       }),
       this.prismaService.product.count({
         where: {
@@ -55,6 +67,6 @@ export class ProductRepository {
   }
 
   async findOneById(id: string) {
-    return this.prismaService.product.findUnique({ where: { id, deletedAt: null } });
+    return this.prismaService.product.findUnique({ where: { id, deletedAt: null }, include: { variants: true } });
   }
 }

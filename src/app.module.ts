@@ -14,7 +14,9 @@ import { CartModule } from './modules/cart/cart.module';
 import { CartItemModule } from './modules/cart-item/cart-item.module';
 import { OrderModule } from './modules/order/order.module';
 import { CategoryModule } from './modules/category/category.module';
+import { PaymentModule } from './modules/payment/payment.module';
 import env from '@/shared/config/env/env';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -36,6 +38,12 @@ import env from '@/shared/config/env/env';
         secretAccessKey: env.CLOUD_SECRET_KEY,
       },
     }),
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
     SharedModule,
     UserModule,
     AuthModule,
@@ -47,6 +55,7 @@ import env from '@/shared/config/env/env';
     CartItemModule,
     OrderModule,
     CategoryModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}

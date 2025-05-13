@@ -19,7 +19,12 @@ export class VariantService {
   ) {}
 
   async create(productId: string, createVariantDto: CreateVariantDto, files: Express.Multer.File[]) {
-    const exist = await this.variantRepository.exist(createVariantDto.sku);
+    const exist = await this.variantRepository.exist({
+      productId,
+      size: createVariantDto.size,
+      color: createVariantDto.color,
+      material: createVariantDto.material,
+    });
     if (exist) {
       throw new BadRequestException('modules.variant.variantExists');
     }
@@ -89,6 +94,7 @@ export class VariantService {
       );
       await this.variantRepository.update(variant.id, { images });
     }
+    await this.variantRepository.update(variant.id, updateVariantDto);
     return {
       id: variant.id,
       createdAt: variant.createdAt,

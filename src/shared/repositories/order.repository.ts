@@ -63,4 +63,10 @@ export class OrderRepository {
       },
     });
   }
+
+  async findOneByPaymentCode(paymentCode: number) {
+    return this.prismaService.order.findUnique({
+      where: { paymentCode, deletedAt: null },
+    });
+  }
 }

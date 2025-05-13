@@ -2,7 +2,6 @@ export {};
 
 declare global {
   interface CreateVariant {
-    sku: string;
     size: string;
     color: string;
     material: string;
@@ -12,4 +11,11 @@ declare global {
   }
 
   interface UpdateVariant extends Partial<CreateVariant> {}
+
+  interface VariantExist {
+    productId: string;
+    size: string;
+    color: string;
+    material: string;
+  }
 }
