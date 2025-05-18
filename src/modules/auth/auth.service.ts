@@ -166,7 +166,12 @@ export class AuthService {
     }
   }
 
-  async signOut(userId: string, clientInfo: ClientInfo, res: Response) {
+  async getProfile(user: UserJwtPayload) {
+    return this.userRepository.findOneById(user.id);
+  }
+
+  async signOut(refreshToken: string, clientInfo: ClientInfo, res: Response) {
+    const userId = (await this.tokenService.verifyRefreshToken(refreshToken)).id;
     await Promise.all([
       this.refreshTokenRepository.deleteByDevice({
         userId,

@@ -1,5 +1,5 @@
 {
   "error": {
-    "cannotConnect": "Cannot connect to the database"
+    "cannotConnect": "Cannot connect to database"
   }
 }

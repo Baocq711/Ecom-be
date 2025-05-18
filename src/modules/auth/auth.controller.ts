@@ -9,6 +9,8 @@ import { GoogleOAuthGuard } from '@/shared/guard/google-auth.guard';
 import { SendOTPDto } from '@/shared/dto/auth/send-otp.dto';
 import { ForgotPasswordDto } from '@/shared/dto/auth/forgot-password.dto';
 import { Device } from '@/shared/decorator/device.decorator';
+import { Cookies } from '@/shared/decorator/cookies.decorator';
+import { COOKIE_KEY } from '@/shared/@types/enum';
 
 @Controller('auth')
 export class AuthController {
@@ -44,6 +46,11 @@ export class AuthController {
     return this.authService.googleAuthentication(user, stateString, res);
   }
 
+  @Get('profile')
+  async getProfile(@User() user: UserJwtPayload) {
+    return this.authService.getProfile(user);
+  }
+
   @Post('sign-in')
   @Public()
   @UseGuards(LocalAuthGuard)
@@ -58,12 +65,12 @@ export class AuthController {
 
   @Post('sign-out')
   async signOut(
-    @User() user: UserJwtPayload,
+    @Cookies(COOKIE_KEY.REFRESH_TOKEN) refreshToken: string,
     @Ip() ip: string,
     @Device() device: string,
     @Res({ passthrough: true }) res: Response,
   ) {
-    return this.authService.signOut(user.id, { ip, device }, res);
+    return this.authService.signOut(refreshToken, { ip, device }, res);
   }
 
   @Post('sign-up')

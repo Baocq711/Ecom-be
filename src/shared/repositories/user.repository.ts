@@ -103,6 +103,7 @@ export class UserRepository {
     return this.prismaService.user.update({
       where: {
         id,
+        deletedAt: null,
       },
       data: {
         password: await this.hashService.hash(password),
@@ -112,9 +113,14 @@ export class UserRepository {
 
   async findOneById(id: string) {
     return this.prismaService.user.findFirst({
-      where: { id },
+      where: { id, deletedAt: null },
       include: {
         cart: true,
+      },
+      omit: {
+        password: true,
+        refreshTokenProvider: true,
+        roleId: true,
       },
     });
   }

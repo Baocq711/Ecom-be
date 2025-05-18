@@ -22,7 +22,7 @@ import { BullModule } from '@nestjs/bullmq';
   imports: [
     ConfigModule.forRoot(),
     I18nModule.forRoot({
-      fallbackLanguage: 'vi',
+      fallbackLanguage: 'en',
       loaderOptions: {
         path: path.join(__dirname, '/i18n/'),
         watch: true,

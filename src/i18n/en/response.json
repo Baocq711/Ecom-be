@@ -2,7 +2,7 @@
   "default": "Success",
   "exception": {
     "notFound": "Not found",
-    "unauthorized": "User authentication failed",
+    "unauthorized": "User not authenticated",
     "forbidden": "Access denied",
     "badRequest": "Invalid request",
     "internalServerError": "Internal server error",

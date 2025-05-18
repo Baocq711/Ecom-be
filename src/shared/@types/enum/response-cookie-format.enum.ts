@@ -1,3 +1,3 @@
 export enum COOKIE_KEY {
-  REFRESH_TOKEN = 'REFRESH_TOKEN',
+  REFRESH_TOKEN = 'refreshToken',
 }

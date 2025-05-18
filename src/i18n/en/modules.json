@@ -5,8 +5,82 @@
   },
   "auth": {
     "otpExpired": "Verification code has expired",
-    "otpNotMatch": "Verification code is incorrect",
-    "missingCredentials": "Missing authentication credentials",
-    "confirmPasswordNotMatch": "Confirm password does not match"
+    "otpNotMatch": "Invalid verification code",
+    "missingCredentials": "Missing credentials",
+    "confirmPasswordNotMatch": "Passwords do not match"
+  },
+  "role": {
+    "nameExists": "Role name already exists",
+    "roleNotExists": "Role does not exist",
+    "permissionNotExists": "Permission does not exist"
+  },
+  "permission": {
+    "permissionNotExists": "Permission does not exist",
+    "permissionExists": "Permission already exists"
+  },
+  "order": {
+    "orderNotExists": "Order does not exist",
+    "orderExists": "Order already exists",
+    "cartItemNotFound": "Some products do not exist in cart",
+    "discountCannotBeGreaterThan100": "Discount cannot be greater than 100%",
+    "discountCannotBeGreaterThanAmount": "Discount cannot be greater than total amount",
+    "invalidTotalAmount": "Invalid total amount"
+  },
+  "variant": {
+    "variantNotExists": "Variant does not exist",
+    "variantExists": "Variant already exists"
+  },
+  "product": {
+    "productNotExists": "Product does not exist",
+    "productExists": "Product already exists",
+    "uploadImageFailed": "Failed to upload product image"
+  },
+  "category": {
+    "categoryNotExists": "Category does not exist",
+    "categoryExists": "Category already exists"
+  },
+  "brand": {
+    "brandNotExists": "Brand does not exist",
+    "brandExists": "Brand already exists"
+  },
+  "review": {
+    "reviewNotExists": "Review does not exist",
+    "reviewExists": "Review already exists"
+  },
+  "coupon": {
+    "couponNotExists": "Coupon does not exist",
+    "couponExists": "Coupon already exists"
+  },
+  "payment": {
+    "paymentNotExists": "Payment does not exist",
+    "paymentExists": "Payment already exists"
+  },
+  "shipping": {
+    "shippingNotExists": "Shipping does not exist",
+    "shippingExists": "Shipping already exists"
+  },
+  "cart": {
+    "cartNotExists": "Cart does not exist",
+    "cartExists": "Cart already exists",
+    "itemExists": "Product already exists in cart",
+    "itemNotExists": "Product does not exist in cart",
+    "cartIsEmpty": "Cart is empty"
+  },
+  "wishlist": {
+    "wishlistNotExists": "Wishlist does not exist",
+    "wishlistExists": "Wishlist already exists"
+  },
+  "notification": {
+    "notificationNotExists": "Notification does not exist",
+    "notificationExists": "Notification already exists"
+  },
+  "file": {
+    "fileNotExists": "File does not exist",
+    "fileExists": "File already exists",
+    "fileInvalidFormat": "Invalid file format",
+    "invalidFileType": "Invalid file type {extension.0}",
+    "requiredId": "ID is required",
+    "fileSizeLimit": "File size exceeds {size}B",
+    "uploadFailed": "File upload failed"
   }
 }

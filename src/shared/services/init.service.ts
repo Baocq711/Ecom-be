@@ -3,7 +3,13 @@ import env from '@/shared/config/env/env';
 import { CacheService } from '@/shared/services/cache.service';
 import { HashService } from '@/shared/services/hash.service';
 import { PrismaService } from '@/shared/services/prisma.service';
-import { initPermissions } from '@i18ntypes/init.generated';
+import {
+  initLevelOneCategories,
+  initLevelTwoCategories,
+  initPermissions,
+  initProducts,
+  initVariants,
+} from '@i18ntypes/init.generated';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 
 @Injectable()
@@ -31,6 +37,7 @@ export class InitService implements OnModuleInit {
 
     await this.cachePermissions(userRole!.id);
     await this.cachePermissions(adminRole!.id);
+    await this.initProduct();
     this.logger.log('InitService initialized');
   }
 
@@ -167,5 +174,59 @@ export class InitService implements OnModuleInit {
       },
     });
     await this.cacheService.setPermissions(roleId, permissions);
+  };
+
+  initProduct = async () => {
+    await this.prismaService.category.createMany({
+      data: initLevelOneCategories,
+      skipDuplicates: true,
+    });
+
+    const levelOneCategories = await this.prismaService.category.findMany({
+      where: {
+        level: 1,
+      },
+    });
+
+    await this.prismaService.category.createMany({
+      data: levelOneCategories.flatMap((category) =>
+        category.name === 'Nam'
+          ? initLevelTwoCategories.slice(0, -2).map((variant) => ({ ...variant, parentId: category.id }))
+          : initLevelTwoCategories.map((variant) => ({ ...variant, parentId: category.id })),
+      ),
+      skipDuplicates: true,
+    });
+
+    const levelTwoCategories = await this.prismaService.category.findMany({
+      where: {
+        level: 2,
+      },
+      include: {
+        parent: true,
+      },
+    });
+
+    await this.prismaService.product.createMany({
+      skipDuplicates: true,
+      data: initProducts.map((product) => ({
+        ...product,
+        categoryId: levelTwoCategories.find(
+          (c) =>
+            product.name.toLowerCase().includes(c.name.toLowerCase()) &&
+            (c.parent ? product.name.toLowerCase().includes(c.parent.name.toLowerCase()) : false),
+        )?.id,
+      })),
+    });
+
+    const products = await this.prismaService.product.findMany();
+
+    await this.prismaService.variant.createMany({
+      data: initVariants.flatMap((variants, index) =>
+        variants.map((variant) => ({ ...variant, productId: products[index].id })),
+      ),
+      skipDuplicates: true,
+    });
+
+    this.logger.log(`Products initialized`);
   };
 }
