@@ -33,8 +33,8 @@ export class CategoryService {
     return this.categoryRepository.findByParent(parentId);
   }
 
-  async findByName(name: string) {
-    return this.categoryRepository.findByName(name);
+  async findPath(id: string) {
+    return this.categoryRepository.findPath(id);
   }
 
   async findById(id: string) {

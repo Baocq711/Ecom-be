@@ -22,9 +22,9 @@ export class CategoryController {
     return this.categoryService.findByParent(id);
   }
 
-  @Get('name/:name')
-  findByName(@Param('name') name: string) {
-    return this.categoryService.findByName(name);
+  @Get('root/:id')
+  findPath(@Param('id') id: string) {
+    return this.categoryService.findPath(id);
   }
 
   @Patch(':id')

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from '@/shared/dto/user/create-user.dto';
 import { Public } from '@/shared/decorator/public.decorator';
@@ -14,9 +14,42 @@ export class UserController {
   ) {}
 
   @Post()
-  create() {
+  @Public()
+  async create(@Query('parentId') parentId: string) {
+    const a = 0;
+    // function convertBigIntToString(obj) {
+    //   return JSON.parse(JSON.stringify(obj, (key, value) => (typeof value === 'bigint' ? value.toString() : value)));
+    // }
     // @Body() createUserDto: CreateUserDto
-    return this.prismaService.role.delete({ where: { id: '1' } });
+    console.log(
+      await this.prismaService.$queryRaw`
+      WITH RECURSIVE sub AS (
+        SELECT id
+        FROM "Category"
+        WHERE id = ${parentId}::uuid
+        UNION ALL
+        SELECT c.id
+        FROM "Category" c
+        JOIN sub s ON c."parentId" = s.id
+      )
+      SELECT
+        p.*,
+        COUNT(*) OVER()::numeric AS total      -- đếm tổng
+      FROM "Product" p
+      WHERE p."categoryId" IN (SELECT id FROM sub)
+      ORDER BY p.id
+      LIMIT  ${1}
+      OFFSET ${0}
+    `,
+    );
+    // ${
+    // keyword &&
+    // this.prismaService.$queryRaw`AND (
+    // p."name"        ILIKE ${'%' + keyword + '%'}
+    // OR p."sku"      ILIKE ${'%' + keyword + '%'}
+    // OR p."tags"::text ILIKE ${'%' + keyword + '%'}
+    // )`
+    // }
   }
   // return this.userService.create(createUserDto);
 

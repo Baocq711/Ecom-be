@@ -60,6 +60,27 @@ export class ProductService {
     };
   }
 
+  async findByCategoryName(slug: string[], query: PaginationDto) {
+    const { products, totalRecords } = await this.productRepository.findByCategoryName(slug, query);
+    return {
+      meta: {
+        page: query.page,
+        limit: query.limit,
+        totalRecords,
+        totalPages: Math.ceil(totalRecords / query.limit),
+      },
+      products,
+    };
+  }
+
+  async findByName(name: string) {
+    const product = await this.productRepository.findOneByName(name);
+    if (!product) {
+      throw new NotFoundException('modules.product.productNotExists');
+    }
+    return product;
+  }
+
   async findOne(id: string) {
     const product = await this.productRepository.findOneById(id);
     if (!product) {

@@ -1,3 +1,4 @@
+import { createSlug } from '@/helper/createSlug';
 import {
   authModule,
   cartModule,
@@ -6,6 +7,8 @@ import {
   crudModules,
   methods,
   actions,
+  productModule,
+  categoryModule,
 } from '@i18ntypes/init/permission.init';
 import { Method, Module, Prisma } from '@prismaclient/index';
 
@@ -25,6 +28,8 @@ export const initPermissions: Prisma.PermissionCreateManyInput[] = [
   ...fileModule,
   ...cartModule,
   ...variantModule,
+  ...productModule,
+  ...categoryModule,
 ];
 
 export const initProducts: Prisma.ProductCreateManyInput[] = [
@@ -36,6 +41,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Thun+Nam+Basic+2',
       'https://placehold.co/400x600?text=Áo+Thun+Nam+Basic+3',
     ],
+    slug: createSlug('Áo thun nam Basic'),
   },
   {
     name: 'Đầm hoa nhí nữ cổ vuông',
@@ -45,6 +51,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Đầm+Hoa+Nhi+Nữ+Cổ+Vuông+2',
       'https://placehold.co/400x600?text=Đầm+Hoa+Nhi+Nữ+Cổ+Vuông+3',
     ],
+    slug: createSlug('Đầm hoa nhí nữ cổ vuông'),
   },
   {
     name: 'Áo sơ mi nam trắng tay dài',
@@ -54,6 +61,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Sơ+Mi+Nam+Trắng+Tay+Dài+2',
       'https://placehold.co/400x600?text=Áo+Sơ+Mi+Nam+Trắng+Tay+Dài+3',
     ],
+    slug: createSlug('Áo sơ mi nam trắng tay dài'),
   },
   {
     name: 'Quần jeans nam ống suông',
@@ -63,6 +71,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Quần+Jeans+Nam+Ống+Suông+2',
       'https://placehold.co/400x600?text=Quần+Jeans+Nam+Ống+Suông+3',
     ],
+    slug: createSlug('Quần jeans nam ống suông'),
   },
   {
     name: 'Chân váy nữ xếp ly dài',
@@ -72,6 +81,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Chân+Váy+Nữ+Xếp+Ly+Dài+2',
       'https://placehold.co/400x600?text=Chân+Váy+Nữ+Xếp+Ly+Dài+3',
     ],
+    slug: createSlug('Chân váy nữ xếp ly dài'),
   },
   {
     name: 'Áo khoác nam bomber kaki',
@@ -81,6 +91,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Khoác+Nam+Bomber+Kaki+2',
       'https://placehold.co/400x600?text=Áo+Khoác+Nam+Bomber+Kaki+3',
     ],
+    slug: createSlug('Áo khoác nam bomber kaki'),
   },
   {
     name: 'Áo khoác nữ bomber kaki',
@@ -90,6 +101,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Khoác+Nữ+Bomber+Kaki+2',
       'https://placehold.co/400x600?text=Áo+Khoác+Nữ+Bomber+Kaki+3',
     ],
+    slug: createSlug('Áo khoác nữ bomber kaki'),
   },
   {
     name: 'Áo thun nữ croptop',
@@ -99,6 +111,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Thun+Nữ+Croptop+2',
       'https://placehold.co/400x600?text=Áo+Thun+Nữ+Croptop+3',
     ],
+    slug: createSlug('Áo thun nữ croptop'),
   },
   {
     name: 'Quần short kaki nam',
@@ -108,6 +121,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Quần+Short+Kaki+Nam+2',
       'https://placehold.co/400x600?text=Quần+Short+Kaki+Nam+3',
     ],
+    slug: createSlug('Quần short kaki nam'),
   },
   {
     name: 'Áo hoodie nam nỉ bông',
@@ -117,6 +131,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Hoodie+Nam+Nỉ+Bông+2',
       'https://placehold.co/400x600?text=Áo+Hoodie+Nam+Nỉ+Bông+3',
     ],
+    slug: createSlug('Áo hoodie nam nỉ bông'),
   },
   {
     name: 'Áo hoodie nữ nỉ bông',
@@ -126,6 +141,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Áo+Hoodie+Nữ+Nỉ+Bông+2',
       'https://placehold.co/400x600?text=Áo+Hoodie+Nữ+Nỉ+Bông+3',
     ],
+    slug: createSlug('Áo hoodie nữ nỉ bông'),
   },
   {
     name: 'Đầm body nữ dự tiệc',
@@ -135,6 +151,7 @@ export const initProducts: Prisma.ProductCreateManyInput[] = [
       'https://placehold.co/400x600?text=Đầm+Body+Nữ+Dự+Tiệc+2',
       'https://placehold.co/400x600?text=Đầm+Body+Nữ+Dự+Tiệc+3',
     ],
+    slug: createSlug('Đầm body nữ dự tiệc'),
   },
 ];
 
@@ -536,11 +553,13 @@ export const initLevelOneCategories: Prisma.CategoryCreateManyInput[] = [
     name: 'Nam',
     description: 'Thời trang dành cho nam giới',
     level: 1,
+    slug: createSlug('Nam'),
   },
   {
     name: 'Nữ',
     description: 'Thời trang dành cho nữ giới',
     level: 1,
+    slug: createSlug('Nữ'),
   },
 ];
 
@@ -549,20 +568,24 @@ export const initLevelTwoCategories: Prisma.CategoryCreateManyInput[] = [
     name: 'Áo',
     description: 'Các loại áo thời trang',
     level: 2,
+    slug: createSlug('Áo'),
   },
   {
     name: 'Quần',
     description: 'Các loại quần thời trang',
     level: 2,
+    slug: createSlug('Quần'),
   },
   {
     name: 'Đầm',
     description: 'Các loại đầm thời trang',
     level: 2,
+    slug: createSlug('Đầm'),
   },
   {
     name: 'Váy',
     description: 'Các loại váy thời trang',
     level: 2,
+    slug: createSlug('Váy'),
   },
 ];

@@ -9,7 +9,7 @@ type Item = {
 };
 
 export const discount = (amount: number, discount?: number | null, discountType?: DiscountType | null) => {
-  if (!discount || discount === 0) {
+  if (!discount || discount <= 0) {
     return amount;
   }
 

@@ -94,6 +94,7 @@ model Permission {
 model Product {
   id           String       @id @default(uuid()) @db.Uuid
   name         String
+  slug         String
   description  String?
   images       String[]
   discount     Int          @default(0)
@@ -131,6 +132,7 @@ model Variant {
 model Category {
   id          String  @id @default(uuid()) @db.Uuid
   name        String
+  slug        String
   description String?
   level       Int     @default(0)
 
@@ -143,6 +145,7 @@ model Category {
   updatedAt DateTime @updatedAt
 
   @@unique([name, parentId])
+  @@unique([slug, parentId])
 }
 
 model Cart {

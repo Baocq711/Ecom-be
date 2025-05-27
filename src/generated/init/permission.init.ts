@@ -93,3 +93,27 @@ export const fileModule: Prisma.PermissionCreateManyInput[] = [
     path: '/file',
   },
 ];
+
+export const productModule: Prisma.PermissionCreateManyInput[] = [
+  {
+    name: 'FIND BY CATEGORY NAME',
+    method: 'GET',
+    module: 'PRODUCT',
+    path: '/product/path/*path',
+  },
+  {
+    name: 'FIND BY NAME',
+    method: 'GET',
+    module: 'PRODUCT',
+    path: '/product/name/:name',
+  },
+];
+
+export const categoryModule: Prisma.PermissionCreateManyInput[] = [
+  {
+    name: 'FIND PATH',
+    method: 'GET',
+    module: 'CATEGORY',
+    path: '/category/root/:id',
+  },
+];
